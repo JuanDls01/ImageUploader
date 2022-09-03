@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import status, generics
+from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from apps.photo.serializers import PhotoViewSerializers
@@ -7,12 +8,8 @@ from apps.photo.serializers import PhotoViewSerializers
 # Create your views here.
 
 
-class CreatePhotoAPView(generics.ListCreateAPIView):
-    def get(self, request, *args, **kwargs):
-        # self.photo = ImageFile
-        pass
-
-    def create(self, request, *args, **kwargs):
+class CreatePhotoAPView(APIView):
+    def post(self, request):
         file = request.data
         photo_serializer = PhotoViewSerializers(data=file)
         if photo_serializer.is_valid():
