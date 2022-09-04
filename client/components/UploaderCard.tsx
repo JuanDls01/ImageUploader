@@ -1,19 +1,43 @@
 import React, {useCallback, useState} from 'react'
 import { useDropzone } from 'react-dropzone';
-import {FcAddImage} from 'react-icons/fc'
+import {FcAddImage} from 'react-icons/fc';
+import axios from 'axios';
+
+import { TransformToBase64 } from '../utils/TransformToBase64';
+
+const urlApi = 'http://localhost:8000/api/photo/upload'
+
+const fetcher = (url: string) => axios.post(url).then(res => res.data)
 
 export const UploaderCard = ({setIsUploaded, setImageFile}:any) => {
     // const [imageFile, setImageFile] = useState([])
+    // const {data, error} = useSWRMutation('http')
 
     const {getRootProps, getInputProps} = useDropzone({
         accept: {
             'image/*':[]
         },
-        onDrop: (acceptedFiles: any) => {
-            setImageFile(acceptedFiles.map((file:any) => Object.assign(file, {
-                preview: URL.createObjectURL(file)
-            })))
-            // console.log(imageFile)
+        onDrop: async (acceptedFiles: File[]) => {
+            const image = acceptedFiles[0]
+            Object.assign(image, {
+                preview: URL.createObjectURL(image)
+            })
+
+            const imageBase64 = await TransformToBase64(image)
+            console.log('base65',imageBase64)
+
+            const imageUrl = await axios.post(urlApi, {
+                file: imageBase64
+            })
+
+            console.log(imageUrl)
+
+            // setImageFile(imageUrl)
+
+            // setImageFile(acceptedFiles.map((file:any) => Object.assign(file, {
+            //     preview: URL.createObjectURL(file)
+            // })))
+            // // console.log(imageFile)
             setIsUploaded(true)
         }
 

@@ -9,15 +9,20 @@ from apps.photo.serializers import PhotoViewSerializers
 
 
 class CreatePhotoAPView(APIView):
+    def get(self, request, *args):
+        return Response({'parsers': ' '.join(map(str, self.parser_classes))}, status=204)
+
     def post(self, request):
         file = request.data
+        print(file)
         photo_serializer = PhotoViewSerializers(data=file)
         if photo_serializer.is_valid():
             photo_serializer.save()
+            print(photo_serializer.data)
             return Response({
                 'message': 'Aquí va la imagen',
                 'photo': photo_serializer.data
-            }, status.HTTP_200_OK)
+            }, status.HTTP_201_CREATED)
 
         return Response({
             'message': 'Hubo un error enviando la imagen',
