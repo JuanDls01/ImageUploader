@@ -1,7 +1,6 @@
 import {FcOk} from 'react-icons/fc'
 
 export const UploadSuccessfully = ({imageUrl}: any) => {
-    // console.log(imageUrl.data.photo.file)
     const fullImageUrl = 'http://localhost:8000'+imageUrl
     
     const copyHandler = () => {

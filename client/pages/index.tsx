@@ -3,12 +3,10 @@ import Head from 'next/head';
 import { useState } from 'react';
 import { UploaderCard } from '../components/UploaderCard';
 import { UploadSuccessfully } from '../components/UploadSuccessfully';
-// import { UploadProgress } from '../components/UploadProgress';
 
 const Home: NextPage = () => {
   const [imageUrl, setImageUrl] = useState('')
   const [isUploaded, setIsUploaded] = useState(false)
-  // const [uploadPercentage, setUploadPercentage] = useState(0)
   
   return (
     <div className='px-5'>

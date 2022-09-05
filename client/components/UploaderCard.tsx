@@ -1,18 +1,11 @@
-import React, {SetStateAction, useCallback, useState} from 'react'
+import React from 'react'
 import { useDropzone } from 'react-dropzone';
 import {FcAddImage} from 'react-icons/fc';
 import axios from 'axios';
 
 import { TransformToBase64 } from '../utils/TransformToBase64';
 
-const urlApi = 'http://localhost:8000/api/photo/upload'
-
-const fetcher = (url: string) => axios.post(url).then(res => res.data)
-
-// interface props {
-//     setIsUploaded: SetStateAction<State>
-//     setImageUrl: SetStateAction<string>
-// }
+const urlApi = 'http://localhost:8000'
 
 export const UploaderCard = ({setIsUploaded, setImageUrl}:any) => {
 
@@ -28,19 +21,7 @@ export const UploaderCard = ({setIsUploaded, setImageUrl}:any) => {
 
             const imageBase64 = await TransformToBase64(image)
 
-            // const options = {
-            //     onUploadProgress: (progressEvent: any) => {
-            //         const {loaded, total} = progressEvent;
-            //         let percent = Math.floor((loaded*100) / total)
-            //         console.log(percent)
-            //         if (percent<100) {
-            //             setUploadPercentage(percent)
-            //         }
-            //         console.log(percent)
-            //     }
-            // }
-
-            const imageUrl = await axios.post(urlApi, {
+            const imageUrl = await axios.post(urlApi+'/api/photo/upload', {
                 file: imageBase64
             })
 
