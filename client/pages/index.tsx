@@ -29,7 +29,7 @@ const Home: NextPage = () => {
       </main>
 
       <footer className='flex py-5 border-t-2 border-gray-300 border-opacity-20 items-center justify-center'>
-        <p>created by <a href='https://github.com/JuanDls01' className='font-semibold text-yellow-600 hover:underline'>Juan De los Santos</a> - devChallenges.io</p>
+        <p>created by <a href='https://github.com/JuanDls01' target="_blank" rel="noopener noreferrer" className='font-semibold text-yellow-600 hover:underline'>Juan De los Santos</a> - devChallenges.io</p>
       </footer>
     </div>
   )
