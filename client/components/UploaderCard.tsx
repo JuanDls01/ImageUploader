@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react'
+import React, {SetStateAction, useCallback, useState} from 'react'
 import { useDropzone } from 'react-dropzone';
 import {FcAddImage} from 'react-icons/fc';
 import axios from 'axios';
@@ -9,9 +9,12 @@ const urlApi = 'http://localhost:8000/api/photo/upload'
 
 const fetcher = (url: string) => axios.post(url).then(res => res.data)
 
-export const UploaderCard = ({setIsUploaded, setImageFile}:any) => {
-    // const [imageFile, setImageFile] = useState([])
-    // const {data, error} = useSWRMutation('http')
+// interface props {
+//     setIsUploaded: SetStateAction<State>
+//     setImageUrl: SetStateAction<string>
+// }
+
+export const UploaderCard = ({setIsUploaded, setImageUrl}:any) => {
 
     const {getRootProps, getInputProps} = useDropzone({
         accept: {
@@ -24,20 +27,24 @@ export const UploaderCard = ({setIsUploaded, setImageFile}:any) => {
             })
 
             const imageBase64 = await TransformToBase64(image)
-            console.log('base65',imageBase64)
+
+            // const options = {
+            //     onUploadProgress: (progressEvent: any) => {
+            //         const {loaded, total} = progressEvent;
+            //         let percent = Math.floor((loaded*100) / total)
+            //         console.log(percent)
+            //         if (percent<100) {
+            //             setUploadPercentage(percent)
+            //         }
+            //         console.log(percent)
+            //     }
+            // }
 
             const imageUrl = await axios.post(urlApi, {
                 file: imageBase64
             })
 
-            console.log(imageUrl)
-
-            // setImageFile(imageUrl)
-
-            // setImageFile(acceptedFiles.map((file:any) => Object.assign(file, {
-            //     preview: URL.createObjectURL(file)
-            // })))
-            // // console.log(imageFile)
+            setImageUrl(imageUrl.data.photo.file)
             setIsUploaded(true)
         }
 
@@ -45,10 +52,10 @@ export const UploaderCard = ({setIsUploaded, setImageFile}:any) => {
 
     return (
         <>
-            <h2 className='font-sans font-medium text-xl'>Upload your image</h2>
+            <h2 className='font-sans font-medium text-xl m-4'>Upload your image</h2>
             <p className='font-sans font-thin text-xs text-gray-400'>File should be Jpeg, Png...</p>
             <div 
-                {...getRootProps({className: 'border-dashed border-2 rounded-2xl border-sky-500 border-colorrounded-2xl w-4/5 h-44 bg-gray-400/30 dark:bg-gray-400/20 flex flex-col justify-center items-center'})}
+                {...getRootProps({className: 'mx-8 my-5 border-dashed border-2 rounded-2xl border-sky-500 border-colorrounded-2xl w-72 h-52 bg-gray-400/30 dark:bg-gray-400/20 flex flex-col justify-center items-center'})}
             >
                 <FcAddImage className='w-1/2 h-1/2'/>
                 <p className='font-sans font-thin text-xs text-gray-400 m-3'>Drag 'n' drop your image here, or click to select</p>
@@ -56,7 +63,7 @@ export const UploaderCard = ({setIsUploaded, setImageFile}:any) => {
             </div>
             <p className='font-sans font-thin text-xs text-gray-400'>Or</p>
             <input type='file' id='imageBttn' accept='image/*' {...getInputProps()} hidden/>
-            <label htmlFor='imageBttn' className='bg-sky-500 hover:bg-sky-700 w-28 h-8 rounded-md flex items-center justify-center text-white'>Choose a file</label>
+            <label htmlFor='imageBttn' className=' m-4 bg-sky-500 hover:bg-sky-700 w-28 h-8 rounded-md flex items-center justify-center text-white'>Choose a file</label>
         </>
     )
 }

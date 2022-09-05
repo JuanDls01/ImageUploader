@@ -1,26 +1,22 @@
 import {FcOk} from 'react-icons/fc'
 
-export const UploadSuccessfully = ({imageFile}: any) => {
-    console.log(imageFile)
+export const UploadSuccessfully = ({imageUrl}: any) => {
+    // console.log(imageUrl.data.photo.file)
+    const fullImageUrl = 'http://localhost:8000'+imageUrl
+    
     const copyHandler = () => {
-        navigator.clipboard.writeText(imageFile[0].path)
+        navigator.clipboard.writeText(fullImageUrl)
     }
 
     return (
         <>
-            <FcOk />
-            <h2 className='font-sans font-medium text-xl'>Uploaded Successfully</h2>
-            {/* <img
-                src={imageFile[0].preview}
-                onLoad={() => { URL.revokeObjectURL(imageFile.preview) }}
-            /> */}
-            <img src='http://localhost:8000/media/photo/c395da0f-5296-4d82-8c4f-093b87a23446.png'/>
-            {/* <div>
-                <input type='text' defaultValue={imageFile[0].path} readOnly></input>
-                <button onClick={copyHandler}>Copy</button>
-            </div> */}
-            
-            
+            <FcOk className='w-10 h-10 m-3'/>
+            <h2 className='font-sans font-medium text-xl '>Uploaded Successfully</h2>
+            <img src={fullImageUrl} className='rounded-2xl w-80 h-52 m-8'/>
+            <div className='flex mb-3 rounded-lg bg-blue-100 w-80 h-10 p-1'>
+                <input type='text' defaultValue={fullImageUrl} readOnly className='bg-transparent text-black w-80'></input>
+                <button onClick={copyHandler} className='bg-sky-500 hover:bg-sky-700 py-1 px-2 rounded-md flex items-center justify-center text-sm text-white'>Copy</button>
+            </div>
         </>
     )
 }

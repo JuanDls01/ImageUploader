@@ -14,11 +14,9 @@ class CreatePhotoAPView(APIView):
 
     def post(self, request):
         file = request.data
-        print(file)
         photo_serializer = PhotoViewSerializers(data=file)
         if photo_serializer.is_valid():
             photo_serializer.save()
-            print(photo_serializer.data)
             return Response({
                 'message': 'Aquí va la imagen',
                 'photo': photo_serializer.data
